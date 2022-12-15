@@ -4,7 +4,7 @@ import queryString from "query-string"
 import createInstagramNode from "./createInstagramNode"
 
 const defaultOptions = {
-  limit: Infinity,
+  limit: 10,
   pageLimit: 30
 }
 
@@ -14,8 +14,7 @@ async function sourceNodes({ actions, createNodeId, getCache }, configOptions) {
   const config = { ...defaultOptions, ...configOptions }
   const { limit } = config
   const apiOptions = queryString.stringify({limit: config.pageLimit, access_token: config.access_token})
-  const apiUrl = `https://graph.instagram.com/me/media?fields=id,media_url,media_type,permalink,timestamp,caption,username,thumbnail_url,children{id,media_url,media_type,thumbnail_url,timestamp}&${apiOptions}`
-
+  const apiUrl = `https://graph.instagram.com/${config.user_id}/media?fields=id,media_url,media_type,permalink,timestamp,caption,username,thumbnail_url,children{id,media_url,media_type,thumbnail_url,timestamp}&${apiOptions}`;
 
   // Helper function to fetch and parse data to JSON
   const fetchAndParse = async (api) => {
